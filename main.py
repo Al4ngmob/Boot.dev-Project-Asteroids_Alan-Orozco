@@ -4,7 +4,6 @@ import pygame  # pyright: ignore[reportMissingImports]
 
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
-from circleshape import CircleShape
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from logger import log_event, log_state
 from player import Player
