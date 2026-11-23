@@ -23,6 +23,7 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 - **W / S:** Move forward / backward
 - **A / D:** Rotate left / right
 - **Space:** Shoot (with a short cooldown)
+- **Any Key (on Game Over):** Restart the game
 - **Close Window:** Quit the game
 
 ### Gameplay & Behavior
@@ -30,13 +31,20 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 - **Asteroid Spawning & Splitting**
   - Asteroids drift in from the edges of the screen.
   - Shooting an asteroid splits it into smaller pieces.
-- **Collision & Boundaries**
-  - Colliding with an asteroid ends the game.
+- **Scoring System**
+  - Earn points by surviving and destroying asteroids (displayed in the top-left corner):
+    - **Small asteroids:** `+50` points
+    - **Medium asteroids:** `+25` points
+    - **Large asteroids:** `+10` points
+    - **Survival bonus:** `+1` point per second survived
+- **Collision, Game Over & Restart**
+  - Colliding with an asteroid triggers a **Game Over** screen displaying your final score.
+  - Press any key on the Game Over screen to immediately restart a new run.
   - Shots that leave the screen are automatically removed.
 
 ### Project Structure
 
-- `main.py`: Game loop, input handling, and collision checks
+- `main.py`: Game loop, scoring, game over/restart handling, input handling, and collision checks
 - `player.py`: Player ship movement, rotation, and shooting
 - `asteroid.py`: Asteroid behavior and splitting
 - `asteroidfield.py`: Spawns asteroids along the screen edges
@@ -47,7 +55,6 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 
 ### Future Updates
 
-- Add a scoring system
 - Implement multiple lives and respawning
 - Add an explosion effect for asteroids
 - Add acceleration to player movement
@@ -59,5 +66,3 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 - Add a shield power-up
 - Add a speed power-up
 - Add bombs that can be dropped
-
-[![Boot.dev Build Asteroids using Python and Pygame certificate](https://api.boot.dev/v1/static/certificate/24d46176-52b6-438b-b4c5-a1ecb0beed9e)](https://www.boot.dev/certificates/24d46176-52b6-438b-b4c5-a1ecb0beed9e)
