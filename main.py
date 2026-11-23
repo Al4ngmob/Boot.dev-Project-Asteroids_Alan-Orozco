@@ -1,6 +1,7 @@
 import sys
 
 import pygame  # pyright: ignore[reportMissingImports]
+
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from constants import ASTEROID_MIN_RADIUS, SCREEN_HEIGHT, SCREEN_WIDTH

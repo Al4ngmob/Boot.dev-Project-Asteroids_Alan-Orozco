@@ -1,6 +1,7 @@
 import random
 
 import pygame  # pyright: ignore[reportMissingImports]
+
 from circleshape import CircleShape
 from constants import ASTEROID_MIN_RADIUS, LINE_WIDTH
 from logger import log_event

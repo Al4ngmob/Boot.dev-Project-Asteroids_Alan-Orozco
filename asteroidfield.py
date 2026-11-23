@@ -2,6 +2,7 @@ import random
 from collections.abc import Callable
 
 import pygame  # pyright: ignore[reportMissingImports]
+
 from asteroid import Asteroid
 from constants import *
 
