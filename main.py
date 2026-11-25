@@ -1,6 +1,7 @@
 import sys
 
 import pygame  # pyright: ignore[reportMissingImports]
+
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from constants import (
@@ -10,11 +11,12 @@ from constants import (
     SCREEN_WIDTH,
 )
 from logger import log_event, log_state
+from particle import Particles
 from player import Player
 from shot import Shot
 
 
-def play_game(screen, clock, font, large_font):
+def play_game(screen, clock, font, large_font, bg_image):
     dt = 0.0
     score = 0
     time_survived = 0.0
@@ -29,6 +31,7 @@ def play_game(screen, clock, font, large_font):
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = updatable
     Shot.containers = (shots, drawable, updatable)
+    Particles.containers = (drawable, updatable)
 
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
     AsteroidField()
@@ -39,7 +42,7 @@ def play_game(screen, clock, font, large_font):
             if event.type == pygame.QUIT:
                 return "quit"
 
-        screen.fill("Black")
+        screen.blit(bg_image, (0, 0))
         updatable.update(dt)
 
         for sprite in drawable:
@@ -153,9 +156,11 @@ def main():
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, 36)
     large_font = pygame.font.Font(None, 64)
+    bg_image = pygame.image.load("assets/background.png").convert()
+    bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
     while True:
-        action = play_game(screen, clock, font, large_font)
+        action = play_game(screen, clock, font, large_font, bg_image)
         if action == "quit":
             break
 

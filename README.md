@@ -32,6 +32,7 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 - **Asteroid Spawning & Splitting**
   - Asteroids drift in from the edges of the screen.
   - Shooting an asteroid splits it into smaller pieces.
+  - Particles apear after hitting (spliting or killing) an asteroid.
 - **Scoring System**
   - Earn points by surviving and destroying asteroids (displayed in the top-left HUD):
     - Small asteroids: +50 points
@@ -46,6 +47,10 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
   - Losing all lives triggers the Game Over screen displaying your final score.
   - Press any key on the Game Over screen to immediately restart a new run.
   - Shots that leave the screen are automatically removed.
+- **Screen Wraping & Background**
+  - Player and Asteroids warp in the screen instead of going out of bounds.
+  - Set asteroid cap at 40 to take care of lag and not letting the screen get too crowded, can be changed in constants.py.
+  - Added an assets folder where you can change the background by uploading an .png.
 
 ## Project Structure
 
@@ -57,13 +62,16 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 - `circleshape.py`: Shared base class with position, radius, and collision detection
 - `constants.py`: Screen size, speeds, lives count, timers, and other tuning values
 - `logger.py`: Event and state logging
+- `particle.py`: Particle class for when hitting an asteroid
 
 ## Future Updates
 
-- Add an explosion effect for asteroids
-- Wrap objects around the screen instead of removing them at the edges
-- Add a background image / starfield
-- Make asteroids lumpy instead of perfectly round
-- Give the ship a triangular hitbox instead of a circular one
+- Add random backgrounds
 - Add a shield power-up
 - Add a speed power-up
+- Add a no-cooldown on shot powerup
+- Make asteroids lumpy instead of perfectly round
+- Give the ship a triangular hitbox instead of a circular one
+
+
+[![Boot.dev Build Asteroids using Python and Pygame certificate](https://api.boot.dev/v1/static/certificate/24d46176-52b6-438b-b4c5-a1ecb0beed9e)](https://www.boot.dev/certificates/24d46176-52b6-438b-b4c5-a1ecb0beed9e)

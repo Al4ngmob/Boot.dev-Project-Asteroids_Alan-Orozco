@@ -1,12 +1,15 @@
 import random
 
 import pygame  # pyright: ignore[reportMissingImports]
+
 from circleshape import CircleShape
 from constants import ASTEROID_MIN_RADIUS, LINE_WIDTH
 from logger import log_event
+from particle import Particles
 
 
 class Asteroid(CircleShape):
+
     def __init__(self, x: float, y: float, radius: float) -> None:
         super().__init__(x, y, radius)
 
@@ -16,9 +19,13 @@ class Asteroid(CircleShape):
 
     def update(self, dt: float) -> None:
         self.position += (self.velocity * dt)
+        super().update(dt)
 
     def split(self):
         self.kill()
+        num_particles = random.randint(10, 20)
+        for _ in range(num_particles):
+            Particles(self.position.x, self.position.y)
         if self.radius <= ASTEROID_MIN_RADIUS:
             return
         log_event("asteroid_split")

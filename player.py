@@ -1,4 +1,5 @@
 import pygame  # pyright: ignore[reportMissingImports]
+
 from circleshape import CircleShape
 from constants import (
     PLAYER_RADIUS,
@@ -56,6 +57,8 @@ class Player(CircleShape):
             self.move(-dt)
         if keys[pygame.K_SPACE]:
             self.shoot()
+
+        super().update(dt)
 
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
