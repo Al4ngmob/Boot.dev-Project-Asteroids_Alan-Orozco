@@ -15,6 +15,7 @@ from constants import (
 from logger import log_event, log_state
 from particle import Particles
 from player import Player
+from powerup import Powerup
 from shot import Shot
 
 
@@ -28,12 +29,14 @@ def play_game(screen, clock, font, large_font, bg_image):
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+    powerups = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = updatable
     Shot.containers = (shots, drawable, updatable)
     Particles.containers = (drawable, updatable)
+    Powerup.containers = (powerups, updatable, drawable)
 
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
     AsteroidField()
@@ -55,7 +58,12 @@ def play_game(screen, clock, font, large_font, bg_image):
         for sprite in drawable:
             sprite.draw(screen)
 
-        # Check asteroid collisions with player
+        # Check asteroid and powerup collisions with player
+        for powerup in list(powerups):
+            if powerup.collides_with(player):
+                powerup.apply(player)
+                powerup.kill()
+
         for asteroid in list(asteroids):
             if player.invulnerable_timer <= 0 and asteroid.collides_with(player):
                 log_event("player_hit")
