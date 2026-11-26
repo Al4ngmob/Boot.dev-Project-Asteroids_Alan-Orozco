@@ -1,3 +1,5 @@
+import os
+import random
 import sys
 
 import pygame  # pyright: ignore[reportMissingImports]
@@ -42,7 +44,12 @@ def play_game(screen, clock, font, large_font, bg_image):
             if event.type == pygame.QUIT:
                 return "quit"
 
-        screen.blit(bg_image, (0, 0))
+        #Check if bag_image exists, else fill screen black
+        if bg_image is not None:
+            screen.blit(bg_image, (0, 0))
+        else:
+            screen.fill("Black")
+
         updatable.update(dt)
 
         for sprite in drawable:
@@ -149,6 +156,27 @@ def play_game(screen, clock, font, large_font, bg_image):
         dt = clock.tick(60) / 1000.0
 
 
+def get_random_background(folder_path: str, width: int, height: int):
+    #chose an random background from assets folder
+    valid_extensions = (".png", ".jpg", ".jpge")
+    images = [
+        f for f in os.listdir(folder_path)
+        if f.lower().endswith(valid_extensions)
+    ]
+
+    if not images:
+        return None
+
+    chosen_bg = random.choice(images)
+    path = os.path.join(folder_path, chosen_bg)
+
+    img = pygame.image.load(path).convert()
+    return pygame.transform.scale(img, (width, height))
+
+
+
+
+
 def main():
     pygame.init()
     pygame.font.init()
@@ -156,10 +184,10 @@ def main():
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, 36)
     large_font = pygame.font.Font(None, 64)
-    bg_image = pygame.image.load("assets/background.png").convert()
-    bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
     while True:
+        bg_image = get_random_background("assets", SCREEN_WIDTH, SCREEN_HEIGHT)
+
         action = play_game(screen, clock, font, large_font, bg_image)
         if action == "quit":
             break
