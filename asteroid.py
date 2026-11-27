@@ -6,7 +6,7 @@ from circleshape import CircleShape
 from constants import ASTEROID_MIN_RADIUS, LINE_WIDTH
 from logger import log_event
 from particle import Particles
-from powerup import No_cooldown, Shield
+from powerup import No_cooldown, Shield, Speed_up
 
 
 class Asteroid(CircleShape):
@@ -28,11 +28,13 @@ class Asteroid(CircleShape):
         for _ in range(num_particles):
             Particles(self.position.x, self.position.y)
         if self.radius <= ASTEROID_MIN_RADIUS:
-            spawn_power_up_chance = random.randint(0, 9)
+            spawn_power_up_chance = random.randint(1, 15)
             if spawn_power_up_chance == 2:
                 Shield.spawn(self.position.x, self.position.y, self.velocity)
             elif spawn_power_up_chance == 7:
                 No_cooldown.spawn(self.position.x, self.position.y, self.velocity)
+            elif spawn_power_up_chance == 14:
+                Speed_up.spawn(self.position.x, self.position.y, self.velocity)
             return
         log_event("asteroid_split")
         new_angle = random.uniform(20, 50)

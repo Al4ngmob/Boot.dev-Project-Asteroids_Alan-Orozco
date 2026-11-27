@@ -50,7 +50,14 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 - **Screen Wraping & Background**
   - Player and Asteroids warp in the screen instead of going out of bounds.
   - Set asteroid cap at 40 to take care of lag and not letting the screen get too crowded, can be changed in constants.py.
-  - Added an assets folder where you can change the background by uploading an .png.
+  - Added an assets folder where you can add background images by uploading an .png, .jpg or an .jpge, it randomizes wich backgroun is pick every time you start the game or respawn.
+- **Powerups**
+  - They have a 20% chance of spawning when destroying an small asteroid, they can be 1 of 3 powerups:
+    - Shield: Gives you an free hit and on colission dissapears giving you invelnarability for a short period of time, spawns as an blue orb.
+    - No shot cooldown: lets you shoot a laser style shot for 2 seconds, spawns as an red orb.
+    - Speed up: Gives you an 25% speed boost for 3.5 seconds, spawns as an green orb.
+  - Timers in constants if you want to modify times.
+
 
 ## Project Structure
 
@@ -66,10 +73,6 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 
 ## Future Updates
 
-- Add random backgrounds
-- Add a shield power-up
-- Add a speed power-up
-- Add a no-cooldown on shot powerup
 - Make asteroids lumpy instead of perfectly round
 - Give the ship a triangular hitbox instead of a circular one
 

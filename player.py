@@ -2,6 +2,7 @@ import pygame  # pyright: ignore[reportMissingImports]
 
 from circleshape import CircleShape
 from constants import (
+    LINE_WIDTH,
     PLAYER_RADIUS,
     PLAYER_SHOOT_COOLDOWN_SECONDS,
     PLAYER_SHOOT_SPEED,
@@ -21,6 +22,8 @@ class Player(CircleShape):
         self.shoot_timer = 0
         self.invulnerable_timer = 0
         self.no_cooldown_timer = 0
+        self.speed_up_timer = 0
+        self.shield_active = False
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -34,6 +37,8 @@ class Player(CircleShape):
         # Flicker while invulnerable (blink every 0.1s)
         if self.invulnerable_timer > 0 and int(self.invulnerable_timer * 10) % 2 == 0:
             return
+        if self.shield_active == True:
+            pygame.draw.circle(screen, "Blue", self.position, self.radius + 4, LINE_WIDTH)
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
 
     def respawn(self):
@@ -46,7 +51,8 @@ class Player(CircleShape):
             self.invulnerable_timer -= dt
         if self.no_cooldown_timer > 0:
             self.no_cooldown_timer -= dt
-            print(self.no_cooldown_timer)
+        if self.speed_up_timer > 0:
+            self.speed_up_timer = max(0, self.speed_up_timer - dt)
 
         self.shoot_timer -= dt
         keys = pygame.key.get_pressed()
@@ -69,7 +75,12 @@ class Player(CircleShape):
 
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * PLAYER_SPEED * dt
+        if self.speed_up_timer > 0:
+            self.position += forward * (PLAYER_SPEED * 1.25) * dt
+        else:
+            self.position += forward * PLAYER_SPEED * dt
+
+
 
     def shoot(self):
         if self.no_cooldown_timer <= 0 and self.shoot_timer > 0:
