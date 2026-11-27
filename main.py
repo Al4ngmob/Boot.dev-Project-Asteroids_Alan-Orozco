@@ -9,6 +9,7 @@ from asteroidfield import AsteroidField
 from constants import (
     ASTEROID_MIN_RADIUS,
     PLAYER_LIVES,
+    RESPAWN_INVULNERABILITY_TIMER,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
 )
@@ -67,7 +68,42 @@ def play_game(screen, clock, font, large_font, bg_image):
         for asteroid in list(asteroids):
             if player.invulnerable_timer <= 0 and asteroid.collides_with(player):
                 log_event("player_hit")
-                lives -= 1
+                if player.shield_active == True:
+                    player.shield_active = False
+                    player.invulnerable_timer = RESPAWN_INVULNERABILITY_TIMER
+                    asteroid.kill()
+                else:
+                    lives -= 1
+
+                    # --- RESPAWN PROMPT ---
+                    score_lives_surface = font.render(
+                        f"REMAINING LIVES: {lives}   SCORE: {score}", True, (255, 0, 0)
+                    )
+                    score_lives_rect = score_lives_surface.get_rect(
+                        center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 15)
+                    )
+
+                    respawn_surface = font.render(
+                        "Press R to Respawn", True, (255, 255, 255)
+                    )
+                    respawn_rect = respawn_surface.get_rect(
+                        center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 25)
+                    )
+
+                    screen.blit(score_lives_surface, score_lives_rect)
+                    screen.blit(respawn_surface, respawn_rect)
+                    pygame.display.flip()
+
+                    waiting_for_respawn = True
+                    while waiting_for_respawn:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                return "quit"
+                            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                                player.respawn()
+                                for a in asteroids:
+                                    a.kill()
+                                waiting_for_respawn = False
 
                 if lives <= 0:
                     # --- GAME OVER SCREEN ---
@@ -101,36 +137,6 @@ def play_game(screen, clock, font, large_font, bg_image):
                                 return "quit"
                             elif event.type == pygame.KEYDOWN:
                                 return "restart"
-
-                # --- RESPAWN PROMPT ---
-                score_lives_surface = font.render(
-                    f"REMAINING LIVES: {lives}   SCORE: {score}", True, (255, 0, 0)
-                )
-                score_lives_rect = score_lives_surface.get_rect(
-                    center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 15)
-                )
-
-                respawn_surface = font.render(
-                    "Press R to Respawn", True, (255, 255, 255)
-                )
-                respawn_rect = respawn_surface.get_rect(
-                    center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 25)
-                )
-
-                screen.blit(score_lives_surface, score_lives_rect)
-                screen.blit(respawn_surface, respawn_rect)
-                pygame.display.flip()
-
-                waiting_for_respawn = True
-                while waiting_for_respawn:
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            return "quit"
-                        if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                            player.respawn()
-                            for a in asteroids:
-                                a.kill()
-                            waiting_for_respawn = False
 
                 break
 

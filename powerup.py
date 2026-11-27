@@ -42,11 +42,27 @@ class Shield(Powerup):
 
 class No_cooldown(Powerup):
     def apply(self, player):
-            player.no_cooldown_timer = 5.0
+            player.no_cooldown_timer = 2.0
             log_event("picked_up: no_cooldown")
 
     def draw(self, screen: pygame.Surface) -> None:
         pygame.draw.circle(screen, "red", self.position, self.radius, 0)
+
+    @classmethod
+    def spawn(cls, x: float, y: float, velocity: pygame.Vector2):
+        if len(cls.containers[0]) < MAX_POWER_UPS:
+            powerup = cls(x, y, 10)
+            angle = random.uniform(20, 50)
+            powerup.velocity = (velocity * 0.5).rotate(angle)
+            return powerup
+
+class Speed_up(Powerup):
+    def apply(self, player):
+            player.speed_up_timer = 3.5
+            log_event("picked_up: Speed up")
+
+    def draw(self, screen: pygame.Surface) -> None:
+        pygame.draw.circle(screen, "green", self.position, self.radius, 0)
 
     @classmethod
     def spawn(cls, x: float, y: float, velocity: pygame.Vector2):
