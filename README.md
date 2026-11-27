@@ -32,7 +32,12 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 - **Asteroid Spawning & Splitting**
   - Asteroids drift in from the edges of the screen.
   - Shooting an asteroid splits it into smaller pieces.
-  - Particles apear after hitting (spliting or killing) an asteroid.
+  - Particles appear after hitting (splitting or destroying) an asteroid.
+  - Asteroids spawn as jagged polygons instead of perfect circles.
+- **Collision Handling**
+  - The player has a triangular hitbox.
+  - Shots, asteroids, and power-ups have circular hitboxes.
+  - Checks handle player collisions with circular hitboxes and collisions between circular hitboxes.
 - **Scoring System**
   - Earn points by surviving and destroying asteroids (displayed in the top-left HUD):
     - Small asteroids: +50 points
@@ -47,17 +52,16 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
   - Losing all lives triggers the Game Over screen displaying your final score.
   - Press any key on the Game Over screen to immediately restart a new run.
   - Shots that leave the screen are automatically removed.
-- **Screen Wraping & Background**
-  - Player and Asteroids warp in the screen instead of going out of bounds.
-  - Set asteroid cap at 40 to take care of lag and not letting the screen get too crowded, can be changed in constants.py.
-  - Added an assets folder where you can add background images by uploading an .png, .jpg or an .jpge, it randomizes wich backgroun is pick every time you start the game or respawn.
-- **Powerups**
-  - They have a 20% chance of spawning when destroying an small asteroid, they can be 1 of 3 powerups:
-    - Shield: Gives you an free hit and on colission dissapears giving you invelnarability for a short period of time, spawns as an blue orb.
-    - No shot cooldown: lets you shoot a laser style shot for 2 seconds, spawns as an red orb.
-    - Speed up: Gives you an 25% speed boost for 3.5 seconds, spawns as an green orb.
-  - Timers in constants if you want to modify times.
-
+- **Screen Wrapping & Background**
+  - The player and asteroids wrap across the screen instead of going out of bounds.
+  - A cap of 40 active asteroids prevents lag and keeps the screen from getting too crowded; adjustable in `constants.py`.
+  - Added an `assets` folder where you can add background images (`.png`, `.jpg`, or `.jpeg`), randomly picking a background each time you start the game or respawn.
+- **Power-Ups**
+  - Destroying a small asteroid has a 20% chance to spawn 1 of 3 power-ups:
+    - **Shield**: Grants a free hit and disappears on impact while giving brief invulnerability; spawns as a blue orb.
+    - **No Shot Cooldown**: Lets you fire a laser-style stream for 2 seconds; spawns as a red orb.
+    - **Speed Up**: Grants a 25% speed boost for 3.5 seconds; spawns as a green orb.
+  - Durations can be adjusted in `constants.py`.
 
 ## Project Structure
 
@@ -69,12 +73,12 @@ Asteroids is a 2D space shooter built with Python and Pygame. Pilot a triangular
 - `circleshape.py`: Shared base class with position, radius, and collision detection
 - `constants.py`: Screen size, speeds, lives count, timers, and other tuning values
 - `logger.py`: Event and state logging
-- `particle.py`: Particle class for when hitting an asteroid
+- `particle.py`: Particle class for asteroid hit/destruction effects
+- `powerup.py`: Power-up class for randomly spawning 1 of 3 power-ups when a small asteroid is destroyed
 
 ## Future Updates
 
-- Make asteroids lumpy instead of perfectly round
-- Give the ship a triangular hitbox instead of a circular one
+- None for the time being
 
 
 [![Boot.dev Build Asteroids using Python and Pygame certificate](https://api.boot.dev/v1/static/certificate/24d46176-52b6-438b-b4c5-a1ecb0beed9e)](https://www.boot.dev/certificates/24d46176-52b6-438b-b4c5-a1ecb0beed9e)

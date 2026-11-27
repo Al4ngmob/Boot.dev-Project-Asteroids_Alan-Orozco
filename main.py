@@ -61,12 +61,12 @@ def play_game(screen, clock, font, large_font, bg_image):
 
         # Check asteroid and powerup collisions with player
         for powerup in list(powerups):
-            if powerup.collides_with(player):
+            if player.collides_with(powerup):
                 powerup.apply(player)
                 powerup.kill()
 
         for asteroid in list(asteroids):
-            if player.invulnerable_timer <= 0 and asteroid.collides_with(player):
+            if player.invulnerable_timer <= 0 and player.collides_with(asteroid):
                 log_event("player_hit")
                 if player.shield_active == True:
                     player.shield_active = False
