@@ -1,6 +1,6 @@
 import pygame  # pyright: ignore[reportMissingImports]
 
-from circleshape import CircleShape
+from circleshape import CircleShape, distance_point_to_segment
 from constants import (
     LINE_WIDTH,
     PLAYER_RADIUS,
@@ -33,6 +33,17 @@ class Player(CircleShape):
         c = self.position - forward * self.radius + right
         return [a, b, c]
 
+    def collides_with(self, other: CircleShape) -> bool:
+            a, b, c = self.triangle()
+
+            # Check distance from asteroid center to each of the 3 triangle edges
+            dist_ab = distance_point_to_segment(other.position, a, b)
+            dist_bc = distance_point_to_segment(other.position, b, c)
+            dist_ca = distance_point_to_segment(other.position, c, a)
+
+            # Collision if the asteroid touches any of the three edges
+            return bool(dist_ab <= other.radius or dist_bc <= other.radius or dist_ca <= other.radius)
+
     def draw(self, screen):
         # Flicker while invulnerable (blink every 0.1s)
         if self.invulnerable_timer > 0 and int(self.invulnerable_timer * 10) % 2 == 0:
@@ -48,9 +59,9 @@ class Player(CircleShape):
 
     def update(self, dt):
         if self.invulnerable_timer > 0:
-            self.invulnerable_timer -= dt
+            self.invulnerable_timer = max(0, self.invulnerable_timer - dt)
         if self.no_cooldown_timer > 0:
-            self.no_cooldown_timer -= dt
+            self.no_cooldown_timer = max(0, self.no_cooldown_timer - dt)
         if self.speed_up_timer > 0:
             self.speed_up_timer = max(0, self.speed_up_timer - dt)
 
@@ -79,8 +90,6 @@ class Player(CircleShape):
             self.position += forward * (PLAYER_SPEED * 1.25) * dt
         else:
             self.position += forward * PLAYER_SPEED * dt
-
-
 
     def shoot(self):
         if self.no_cooldown_timer <= 0 and self.shoot_timer > 0:
