@@ -56,6 +56,8 @@ class Player(CircleShape):
         self.position = pygame.Vector2(self.spawn_x, self.spawn_y)
         self.rotation = 0
         self.invulnerable_timer = RESPAWN_INVULNERABILITY_TIMER
+        self.no_cooldown_timer = 0
+        self.speed_up_timer = 0
 
     def update(self, dt):
         if self.invulnerable_timer > 0:

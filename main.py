@@ -103,6 +103,8 @@ def play_game(screen, clock, font, large_font, bg_image):
                                 player.respawn()
                                 for a in asteroids:
                                     a.kill()
+                                for p in powerups:
+                                    p.kill()
                                 waiting_for_respawn = False
 
                 if lives <= 0:
